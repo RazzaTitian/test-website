@@ -17,6 +17,46 @@ const tools = [
   "Rust",
 ];
 
+const services = [
+  {
+    title: "Product Engineering",
+    text: "Build resilient, scalable web products with strong architecture and maintainability.",
+  },
+  {
+    title: "Design Systems",
+    text: "Create token-driven, accessible systems that accelerate teams and increase consistency.",
+  },
+  {
+    title: "AI Product UX",
+    text: "Shape trustworthy AI workflows with human-centered interactions and safeguards.",
+  },
+  {
+    title: "Performance Audits",
+    text: "Find and fix bottlenecks across rendering, loading, and runtime user experience.",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Nova transformed our messy product into a delightful, high-performance experience in weeks.",
+    author: "Elena M.",
+    role: "VP Product, Orbit Labs",
+  },
+  {
+    quote:
+      "The combination of technical depth and UX polish was unlike anyone else we've worked with.",
+    author: "Jordan C.",
+    role: "Head of Engineering, PixelFoundry",
+  },
+  {
+    quote:
+      "From strategy to execution, every decision was clear, data-backed, and beautifully implemented.",
+    author: "Aarav P.",
+    role: "Founder, Helio Commerce",
+  },
+];
+
 const projects = [
   {
     title: "Aurora Commerce OS",
@@ -24,6 +64,7 @@ const projects = [
     description:
       "Composable commerce suite with realtime personalization and resilient checkout.",
     tags: ["React", "Node", "GraphQL", "Performance"],
+    impact: 95,
     link: "https://example.com/aurora",
   },
   {
@@ -32,6 +73,7 @@ const projects = [
     description:
       "Enterprise prompt-flow platform with multimodal evaluation and guardrails.",
     tags: ["Python", "LLM", "UX", "Observability"],
+    impact: 93,
     link: "https://example.com/helix",
   },
   {
@@ -40,6 +82,7 @@ const projects = [
     description:
       "Cross-platform system powering consistent UX across 40+ product surfaces.",
     tags: ["Figma", "Tokens", "Accessibility", "Storybook"],
+    impact: 90,
     link: "https://example.com/pulse",
   },
   {
@@ -48,6 +91,7 @@ const projects = [
     description:
       "Mission-control dashboard for distributed operations and anomaly detection.",
     tags: ["Next.js", "Realtime", "Maps", "Data Viz"],
+    impact: 89,
     link: "https://example.com/orbit",
   },
   {
@@ -56,6 +100,7 @@ const projects = [
     description:
       "Adaptive learning environment with reinforcement-driven path optimization.",
     tags: ["AI", "Experimentation", "Data", "Mobile"],
+    impact: 92,
     link: "https://example.com/lumen",
   },
   {
@@ -64,6 +109,7 @@ const projects = [
     description:
       "Living styleguide with motion specs, semantic color systems, and governance.",
     tags: ["Brand", "Motion", "WCAG", "DesignOps"],
+    impact: 87,
     link: "https://example.com/prism",
   },
 ];
@@ -100,10 +146,21 @@ const skillData = [
   { label: "Leadership", value: 90 },
 ];
 
+const commandItems = [
+  { label: "Go to Home", action: () => jumpTo("hero") },
+  { label: "Go to Services", action: () => jumpTo("services") },
+  { label: "Go to Projects", action: () => jumpTo("projects") },
+  { label: "Go to Contact", action: () => jumpTo("contact") },
+  { label: "Toggle Theme", action: () => themeToggle.click() },
+  { label: "Open Resume (placeholder)", action: () => showToast("Attach your resume link here.") },
+];
+
 const state = {
   filter: "All",
   query: "",
   theme: localStorage.getItem("theme") || "dark",
+  sort: "featured",
+  testimonial: 0,
 };
 
 const cursorDot = document.getElementById("cursor-dot");
@@ -113,18 +170,44 @@ const navList = document.getElementById("nav-list");
 const projectGrid = document.getElementById("project-grid");
 const projectFilters = document.getElementById("project-filters");
 const projectSearch = document.getElementById("project-search");
+const projectSort = document.getElementById("project-sort");
 const timelineTrack = document.getElementById("timeline-track");
 const toolbox = document.getElementById("toolbox");
+const serviceGrid = document.getElementById("service-grid");
 const themeToggle = document.getElementById("theme-toggle");
+const commandToggle = document.getElementById("command-toggle");
 const progress = document.getElementById("scroll-progress");
+const toast = document.getElementById("toast");
 const modal = document.getElementById("project-modal");
 const modalTitle = document.getElementById("modal-title");
 const modalDescription = document.getElementById("modal-description");
+const modalImpact = document.getElementById("modal-impact");
 const modalTags = document.getElementById("modal-tags");
 const modalLink = document.getElementById("modal-link");
 const modalClose = document.getElementById("modal-close");
 const form = document.getElementById("contact-form");
 const formStatus = document.getElementById("form-status");
+const typingLine = document.getElementById("typing-line");
+const quoteEl = document.getElementById("testimonial-quote");
+const authorEl = document.getElementById("testimonial-author");
+const roleEl = document.getElementById("testimonial-role");
+const prevTestimonial = document.getElementById("testimonial-prev");
+const nextTestimonial = document.getElementById("testimonial-next");
+const commandPalette = document.getElementById("command-palette");
+const commandClose = document.getElementById("command-close");
+const commandInput = document.getElementById("command-input");
+const commandResults = document.getElementById("command-results");
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  window.setTimeout(() => toast.classList.remove("show"), 1900);
+}
+
+function jumpTo(sectionId) {
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  if (commandPalette.open) commandPalette.close();
+}
 
 function revealOnScroll() {
   const observer = new IntersectionObserver(
@@ -159,6 +242,30 @@ function animateCounters() {
   });
 }
 
+function initTypingLine() {
+  const phrases = [
+    "Shipping delightful interfaces at startup speed.",
+    "Designing systems teams actually love to use.",
+    "Blending product strategy, code, and motion.",
+  ];
+  let phraseIndex = 0;
+  let charIndex = 0;
+
+  function tick() {
+    const text = phrases[phraseIndex];
+    typingLine.textContent = text.slice(0, charIndex);
+    charIndex += 1;
+
+    if (charIndex > text.length + 6) {
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      charIndex = 0;
+    }
+  }
+
+  tick();
+  setInterval(tick, 80);
+}
+
 function initTheme() {
   if (state.theme === "light") {
     document.documentElement.classList.add("light");
@@ -171,6 +278,7 @@ function initTheme() {
     themeToggle.textContent = isLight ? "🌙" : "☀️";
     state.theme = isLight ? "light" : "dark";
     localStorage.setItem("theme", state.theme);
+    showToast(`${isLight ? "Light" : "Dark"} theme enabled`);
   });
 }
 
@@ -186,14 +294,12 @@ function initCursor() {
   });
 
   document.querySelectorAll("a,button,.project").forEach((el) => {
-    el.addEventListener(
-      "mouseenter",
-      () => (cursorRing.style.transform = "translate(-50%, -50%) scale(1.6)"),
-    );
-    el.addEventListener(
-      "mouseleave",
-      () => (cursorRing.style.transform = "translate(-50%, -50%) scale(1)"),
-    );
+    el.addEventListener("mouseenter", () => {
+      cursorRing.style.transform = "translate(-50%, -50%) scale(1.6)";
+    });
+    el.addEventListener("mouseleave", () => {
+      cursorRing.style.transform = "translate(-50%, -50%) scale(1)";
+    });
   });
 }
 
@@ -202,6 +308,36 @@ function initProgressBar() {
     const top = window.scrollY;
     const height = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.width = `${(top / height) * 100}%`;
+  });
+}
+
+function initActiveNav() {
+  const links = [...document.querySelectorAll("#nav-list a")];
+  const sections = links.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute("id");
+        links.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+        });
+      });
+    },
+    { threshold: 0.4 },
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+function renderServices() {
+  serviceGrid.innerHTML = "";
+  services.forEach((service) => {
+    const card = document.createElement("article");
+    card.className = "card reveal visible";
+    card.innerHTML = `<h3>${service.title}</h3><p>${service.text}</p>`;
+    serviceGrid.appendChild(card);
   });
 }
 
@@ -238,6 +374,7 @@ function renderFilters() {
 function openProject(project) {
   modalTitle.textContent = project.title;
   modalDescription.textContent = project.description;
+  modalImpact.textContent = `Impact score: ${project.impact}/100`;
   modalTags.innerHTML = "";
   project.tags.forEach((tag) => {
     const tagEl = document.createElement("span");
@@ -249,24 +386,34 @@ function openProject(project) {
   modal.showModal();
 }
 
+function sortProjects(list) {
+  if (state.sort === "az") {
+    return [...list].sort((a, b) => a.title.localeCompare(b.title));
+  }
+  if (state.sort === "impact") {
+    return [...list].sort((a, b) => b.impact - a.impact);
+  }
+  return list;
+}
+
 function renderProjects() {
   const query = state.query.toLowerCase();
   const filtered = projects.filter((project) => {
-    const matchesCategory =
-      state.filter === "All" || project.category === state.filter;
-    const text =
-      `${project.title} ${project.description} ${project.tags.join(" ")}`.toLowerCase();
+    const matchesCategory = state.filter === "All" || project.category === state.filter;
+    const text = `${project.title} ${project.description} ${project.tags.join(" ")}`.toLowerCase();
     return matchesCategory && text.includes(query);
   });
 
+  const list = sortProjects(filtered);
   projectGrid.innerHTML = "";
 
-  filtered.forEach((project) => {
+  list.forEach((project) => {
     const card = document.createElement("article");
     card.className = "project reveal visible";
     card.innerHTML = `
       <h3>${project.title}</h3>
       <p>${project.description}</p>
+      <p>Impact score: <strong>${project.impact}</strong></p>
       <div class="chip-wrap">
         ${project.tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}
       </div>
@@ -276,9 +423,14 @@ function renderProjects() {
   });
 }
 
-function initProjectSearch() {
+function initProjectControls() {
   projectSearch.addEventListener("input", (event) => {
     state.query = event.target.value || "";
+    renderProjects();
+  });
+
+  projectSort.addEventListener("change", (event) => {
+    state.sort = event.target.value;
     renderProjects();
   });
 }
@@ -332,11 +484,7 @@ function drawSkillRadar() {
 
     ctx.fillStyle = "rgba(236, 241, 255, 0.9)";
     ctx.font = "14px Inter";
-    ctx.fillText(
-      skill.label,
-      centerX + Math.cos(angle) * (radius + 12) - 25,
-      centerY + Math.sin(angle) * (radius + 12),
-    );
+    ctx.fillText(skill.label, centerX + Math.cos(angle) * (radius + 12) - 25, centerY + Math.sin(angle) * (radius + 12));
   });
 
   ctx.beginPath();
@@ -356,6 +504,30 @@ function drawSkillRadar() {
   ctx.stroke();
 }
 
+function renderTestimonial() {
+  const current = testimonials[state.testimonial];
+  quoteEl.textContent = `“${current.quote}”`;
+  authorEl.textContent = current.author;
+  roleEl.textContent = current.role;
+}
+
+function initTestimonials() {
+  renderTestimonial();
+  prevTestimonial.addEventListener("click", () => {
+    state.testimonial = (state.testimonial - 1 + testimonials.length) % testimonials.length;
+    renderTestimonial();
+  });
+  nextTestimonial.addEventListener("click", () => {
+    state.testimonial = (state.testimonial + 1) % testimonials.length;
+    renderTestimonial();
+  });
+
+  setInterval(() => {
+    state.testimonial = (state.testimonial + 1) % testimonials.length;
+    renderTestimonial();
+  }, 6500);
+}
+
 function initContactForm() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -370,6 +542,7 @@ function initContactForm() {
     }
 
     formStatus.textContent = `Thanks ${name}! Your message has been captured locally for this demo.`;
+    showToast("Message captured locally");
     form.reset();
   });
 }
@@ -384,6 +557,40 @@ function initModal() {
       event.clientY < rect.top ||
       event.clientY > rect.bottom;
     if (outside) modal.close();
+  });
+}
+
+function initCommandPalette() {
+  function renderCommands(query = "") {
+    const q = query.toLowerCase().trim();
+    const items = commandItems.filter((item) => item.label.toLowerCase().includes(q));
+    commandResults.innerHTML = "";
+    items.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "ghost command-result";
+      button.textContent = item.label;
+      button.addEventListener("click", item.action);
+      commandResults.appendChild(button);
+    });
+  }
+
+  function openPalette() {
+    renderCommands();
+    commandPalette.showModal();
+    commandInput.value = "";
+    commandInput.focus();
+  }
+
+  commandToggle.addEventListener("click", openPalette);
+  commandClose.addEventListener("click", () => commandPalette.close());
+  commandInput.addEventListener("input", (event) => renderCommands(event.target.value));
+
+  window.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      openPalette();
+    }
   });
 }
 
@@ -408,7 +615,7 @@ function initBackgroundCanvas() {
     return Math.random() * (max - min) + min;
   }
 
-  function createParticles(count = 60) {
+  function createParticles(count = 70) {
     particles.length = 0;
     for (let i = 0; i < count; i += 1) {
       particles.push({
@@ -472,16 +679,21 @@ function init() {
   revealOnScroll();
   animateCounters();
   initTheme();
+  initTypingLine();
   initCursor();
   initProgressBar();
+  initActiveNav();
+  renderServices();
   renderToolbox();
   renderFilters();
   renderProjects();
-  initProjectSearch();
+  initProjectControls();
   renderTimeline();
   drawSkillRadar();
+  initTestimonials();
   initContactForm();
   initModal();
+  initCommandPalette();
   initMobileNav();
   initBackgroundCanvas();
   initYear();
