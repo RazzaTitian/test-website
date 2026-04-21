@@ -20,9 +20,7 @@
     <header class="site-header glass" id="top">
       <a class="brand" href="#hero">NOVA<span>•</span></a>
       <nav>
-        <button id="nav-toggle" class="ghost" aria-label="Open navigation">
-          ☰
-        </button>
+        <button id="nav-toggle" class="ghost">☰</button>
         <ul id="nav-list">
           <li><a href="#hero">Home</a></li>
           <li><a href="#about">About</a></li>
@@ -35,12 +33,8 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <button
-          id="command-toggle"
-          class="ghost"
-          aria-label="Open command palette"
-        >
-          ⌘K
+        <button id="theme-toggle" class="ghost" aria-label="Toggle theme">
+          ☀️
         </button>
         <button id="theme-toggle" class="ghost" aria-label="Toggle theme">
           ☀️
@@ -161,11 +155,6 @@
             placeholder="Search projects..."
             aria-label="Search projects"
           />
-          <select id="project-sort" aria-label="Sort projects">
-            <option value="featured">Sort: Featured</option>
-            <option value="az">Sort: A-Z</option>
-            <option value="impact">Sort: Impact</option>
-          </select>
           <div id="project-filters" class="chip-wrap"></div>
         </div>
         <div id="project-grid" class="project-grid"></div>
@@ -177,26 +166,6 @@
           <h2>Milestones that shaped my craft.</h2>
         </div>
         <div id="timeline-track" class="timeline-track"></div>
-      </section>
-
-      <section id="testimonials" class="section">
-        <div class="section-title reveal">
-          <p>Testimonials</p>
-          <h2>Trusted by product teams that move fast.</h2>
-        </div>
-        <article class="card reveal testimonial-shell">
-          <p id="testimonial-quote"></p>
-          <h3 id="testimonial-author"></h3>
-          <p id="testimonial-role"></p>
-          <div class="testimonial-actions">
-            <button id="testimonial-prev" class="ghost" type="button">
-              ← Prev
-            </button>
-            <button id="testimonial-next" class="ghost" type="button">
-              Next →
-            </button>
-          </div>
-        </article>
       </section>
 
       <section id="contact" class="section">
@@ -231,6 +200,25 @@
       <a id="modal-link" class="btn" href="#" target="_blank" rel="noreferrer"
         >View Case Study</a
       >
+    </dialog>
+
+    <dialog id="command-palette">
+      <div class="command-head">
+        <h3>Quick Actions</h3>
+        <button
+          id="command-close"
+          class="ghost"
+          aria-label="Close command palette"
+        >
+          ✕
+        </button>
+      </div>
+      <input
+        id="command-input"
+        placeholder="Type a section or action..."
+        aria-label="Command input"
+      />
+      <div id="command-results" class="command-results"></div>
     </dialog>
 
     <dialog id="command-palette">
