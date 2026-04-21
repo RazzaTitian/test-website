@@ -1,8 +1,3 @@
-diff --git a/README.md b/README.md
-index a4c69b17ca829582f898c5a62cd564cf7106ec2a..afb3b20e02402964c04707bafd588e2f37a53df8 100644
---- a/README.md
-+++ b/README.md
-@@ -1,125 +1,53 @@
  # Nova Portfolio Website
  
  A cinematic, high-interaction portfolio experience built with **vanilla HTML, CSS, and JavaScript** (no framework lock-in), designed as a polished base you can customize for your personal brand.
