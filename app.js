@@ -103,6 +103,7 @@ function buildDeveloperPuzzle() {
     keyButton.className = 'key';
     keyButton.dataset.keyId = id;
     keyButton.dataset.label = id;
+    keyButton.disabled = true;
     keyButton.style.backgroundColor = id === targetId ? '#22c55e' : '#fbbf24';
     keyGrid.appendChild(keyButton);
   });
