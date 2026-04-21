@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A cinematic, interactive, feature-rich developer portfolio." />
+    <title>Nova Portfolio — Interactive Experience</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <header class="site-header glass" id="top">
+      <a class="brand" href="#hero">NOVA<span>•</span></a>
+      <nav>
+        <button id="nav-toggle" class="ghost">☰</button>
+        <ul id="nav-list">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#timeline">Journey</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle" class="ghost" aria-label="Toggle theme">☀️</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero" class="hero section">
+        <div class="hero-content reveal">
+          <p class="pill">Open to global opportunities</p>
+          <h1>
+            I build <span class="gradient">immersive digital worlds</span>
+            with performance, elegance, and intent.
+          </h1>
+          <p>
+            Product-focused engineer crafting full-stack experiences, motion systems, and intelligent interfaces.
+            This portfolio is a living playground of interaction design.
+          </p>
+          <div class="hero-cta">
+            <a class="btn" href="#projects">Explore Projects</a>
+            <a class="btn ghost" href="#contact">Hire Me</a>
+          </div>
+          <div class="quick-stats">
+            <article><h3 data-count="85">0</h3><p>Production Deployments</p></article>
+            <article><h3 data-count="37">0</h3><p>Design Systems Built</p></article>
+            <article><h3 data-count="11">0</h3><p>Years in Craft</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-title reveal">
+          <p>About</p>
+          <h2>Systems thinker. Pixel perfectionist. Shipping obsessed.</h2>
+        </div>
+        <div class="about-grid">
+          <article class="card reveal">
+            <h3>Philosophy</h3>
+            <p>
+              Great products are choreography between engineering and empathy. I translate ambiguous ideas into
+              coherent, testable, scalable experiences.
+            </p>
+          </article>
+          <article class="card reveal">
+            <h3>Specialties</h3>
+            <ul>
+              <li>Modern web architecture</li>
+              <li>Animation & interaction engineering</li>
+              <li>AI-enhanced product workflows</li>
+              <li>Performance + accessibility strategy</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <h3>Current Focus</h3>
+            <p>
+              Exploring multimodal UX, browser-native graphics, and resilient offline-first products for global teams.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="section-title reveal">
+          <p>Capabilities</p>
+          <h2>A balanced stack from interface to infrastructure.</h2>
+        </div>
+        <div class="skills-layout">
+          <article class="card reveal">
+            <h3>Skill Radar</h3>
+            <canvas id="skill-canvas" width="460" height="460" aria-label="Skill radar chart"></canvas>
+          </article>
+          <article class="card reveal">
+            <h3>Toolbox</h3>
+            <div class="chip-wrap" id="toolbox"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-title reveal">
+          <p>Portfolio</p>
+          <h2>Selected builds across web, AI, and design systems.</h2>
+        </div>
+        <div class="project-controls reveal">
+          <input id="project-search" placeholder="Search projects..." aria-label="Search projects" />
+          <div id="project-filters" class="chip-wrap"></div>
+        </div>
+        <div id="project-grid" class="project-grid"></div>
+      </section>
+
+      <section id="timeline" class="section">
+        <div class="section-title reveal">
+          <p>Journey</p>
+          <h2>Milestones that shaped my craft.</h2>
+        </div>
+        <div id="timeline-track" class="timeline-track"></div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="section-title reveal">
+          <p>Contact</p>
+          <h2>Let’s build something unforgettable.</h2>
+        </div>
+        <form id="contact-form" class="card reveal">
+          <label>Name <input name="name" required /></label>
+          <label>Email <input name="email" type="email" required /></label>
+          <label>Project Brief <textarea name="message" rows="5" required></textarea></label>
+          <button class="btn" type="submit">Send Message</button>
+          <p id="form-status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Nova Portfolio. Crafted with intention.</p>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+
+    <dialog id="project-modal">
+      <button id="modal-close" class="ghost">✕</button>
+      <h3 id="modal-title"></h3>
+      <p id="modal-description"></p>
+      <div id="modal-tags" class="chip-wrap"></div>
+      <a id="modal-link" class="btn" href="#" target="_blank" rel="noreferrer">View Case Study</a>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
